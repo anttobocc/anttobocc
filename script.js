@@ -70,7 +70,7 @@ if (pad) {
   let current = null;
 
   // Los nombres de proyectos se resaltan en la pantalla
-  const PROJECTS = /(EduControl|PlayCode|Capricho|Nutrivid|MerceNails|NutriPet)/g;
+  const PROJECTS = /(EduControl|PlayCode|Capricho|Nutrivid|CherryNails|NutriPet)/g;
 
   const bus = (window.padBus = {
     projects: PROJECTS,
