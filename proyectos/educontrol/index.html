@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="ext-resource-dependency" content="assets/edu/a-cursos.webp">
+<meta name="ext-resource-dependency" content="assets/edu/a-estudiantes.webp">
+<meta name="ext-resource-dependency" content="assets/edu/a-docentes.webp">
+<meta name="ext-resource-dependency" content="assets/edu/a-curso.webp">
+<meta name="ext-resource-dependency" content="assets/edu/p-cursos.webp">
+<meta name="ext-resource-dependency" content="assets/edu/p-alumnos.webp">
+<meta name="ext-resource-dependency" content="assets/edu/p-asistencia.webp">
+<meta name="ext-resource-dependency" content="assets/edu/p-entregas.webp">
+<meta name="ext-resource-dependency" content="assets/edu/e-curso.webp">
+<meta name="ext-resource-dependency" content="assets/edu/e-resena.webp">
+<meta name="ext-resource-dependency" content="assets/edu/hero.webp">
+<meta name="ext-resource-dependency" content="assets/edu/login.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#f7f9fc;color:#0b1324;font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#1d4ed8}a:hover{color:#0d9488}
+*{box-sizing:border-box}
+:root{--ease-out:cubic-bezier(0.23,1,0.32,1);--ease-spring:cubic-bezier(0.34,1.56,0.64,1)}
+section[id]{scroll-margin-top:72px}
+.progress{position:absolute;left:0;bottom:-1px;height:2px;width:100%;background:linear-gradient(90deg,#2dd4bf,#1d4ed8);transform-origin:left;transform:scaleX(0)}
+.hdr{transition:box-shadow .3s ease}
+.hdr.scrolled{box-shadow:0 10px 30px -18px rgba(7,26,43,0.35)}
+.ind{position:absolute;left:0;top:0;pointer-events:none}
+.tab-off:hover{color:#0b1324!important}
+@media (max-width:640px){
+  .nav{display:none!important}
+  .hdr > div{padding:12px 16px!important;display:flex!important;justify-content:space-between}
+  .tabs{max-width:100%;overflow-x:auto;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+}
+@media (prefers-reduced-motion: no-preference){
+  html{scroll-behavior:smooth}
+  /* Hero: entrada escalonada */
+  .hero-in > *{animation:rise .9s var(--ease-out) both}
+  .hero-in > :nth-child(1){animation-delay:.05s}
+  .hero-in > h1{animation:none}
+  .hero-in .w{display:inline-block;animation:word .9s var(--ease-out) both;animation-delay:calc(.15s + var(--i,0) * 70ms)}
+  .hero-in > :nth-child(3){animation-delay:.7s}
+  .hero-in > :nth-child(4){animation-delay:.8s}
+  .hero-in > :nth-child(5){animation-delay:.9s}
+  .hero-in > .hero-frame{animation:rise 1.2s var(--ease-out) .55s both}
+  .hero-frame{transform-origin:50% 100%;will-change:transform}
+  .url-t{box-sizing:content-box;display:inline-block;vertical-align:bottom;overflow:hidden;white-space:nowrap;width:15ch;border-right:2px solid #2dd4bf;animation:type 1s steps(15) 1.4s both,caret .9s step-end infinite}
+  @keyframes rise{from{opacity:0;translate:0 22px;filter:blur(6px)}}
+  @keyframes word{from{opacity:0;translate:0 .45em;filter:blur(10px)}}
+  @keyframes type{from{width:0}}
+  @keyframes caret{50%{border-color:transparent}}
+  /* Aparición al scrollear */
+  .rv{opacity:0;translate:0 26px;transition:opacity .8s var(--ease-out),translate .8s var(--ease-out)}
+  .rv.in{opacity:1;translate:none}
+  .st > *{--dl:calc(var(--i,0) * 70ms + 120ms);opacity:0;translate:0 16px;transition:opacity .7s var(--ease-out) var(--dl),translate .7s var(--ease-out) var(--dl),background-color .25s ease}
+  .in .st > *,.st.in > *{opacity:1;translate:none}
+  .code-lines > *{opacity:0;translate:-10px 0;transition:opacity .5s var(--ease-out),translate .5s var(--ease-out);transition-delay:calc(var(--j,0) * 90ms + 380ms)}
+  .in .code-lines > *{opacity:1;translate:none}
+  .ck{scale:0}
+  .in .ck{scale:1;transition:scale .5s var(--ease-spring) calc(var(--dl,0s) + 180ms)}
+  /* Hover */
+  .lift{transition:opacity .7s var(--ease-out) var(--dl,0s),translate .7s var(--ease-out) var(--dl,0s),transform .35s var(--ease-out),box-shadow .35s var(--ease-out)}
+  .zoom img{transition:scale .7s var(--ease-out)}
+  .btn{transition:transform .25s var(--ease-out),filter .25s ease}
+  .btn:active{transform:scale(.97)}
+  .shot-frame{transition:transform .4s var(--ease-out),box-shadow .4s var(--ease-out)}
+  .ind{transition:transform .5s var(--ease-out),width .5s var(--ease-out),height .5s var(--ease-out)}
+  .ind.no-anim{transition:none}
+  .tabs button{transition:color .3s ease,border-color .3s ease}
+  .nav a{position:relative}
+  .nav a::after{content:"";position:absolute;left:0;right:0;bottom:-5px;height:2px;border-radius:2px;background:#1d4ed8;transform:scaleX(0);transform-origin:right;transition:transform .35s var(--ease-out)}
+  .nav a:hover::after{transform:scaleX(1);transform-origin:left}
+  @media (hover:hover){
+    .lift:hover{transform:translateY(-4px);box-shadow:0 22px 40px -24px rgba(7,26,43,0.4)}
+    .zoom:hover img{scale:1.03}
+    .btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+    .shot-frame:hover{transform:translateY(-3px);box-shadow:0 40px 70px -30px rgba(7,26,43,0.55)!important}
+    .feat > :hover{background-color:#f0fdfa!important}
+  }
+  /* CTA */
+  .cta{animation:drift 16s linear infinite}
+  .caret{display:inline-block;width:.6em;height:1.1em;margin-left:4px;vertical-align:-3px;background:#2dd4bf;animation:blink 1s step-end infinite}
+  @keyframes drift{to{background-position:44px 44px,44px 44px}}
+  @keyframes blink{50%{opacity:0}}
+  /* Lightbox */
+  .lb{animation:fade .3s ease both}
+  .lb-img{animation:pop .5s var(--ease-out) both}
+  @keyframes fade{from{opacity:0}}
+  @keyframes pop{from{opacity:0;scale:.92}}
+}
+</style>
+</helmet>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#071a2b"></rect><text x="50" y="64" font-family="monospace" font-weight="700" font-size="34" fill="#2dd4bf" text-anchor="middle">&gt;_</text></svg></template>
+
+<div style="min-height:100vh;background:#f7f9fc">
+
+  <header class="hdr" style="position:sticky;top:0;z-index:20;background:rgba(247,249,252,0.9);backdrop-filter:blur(12px);border-bottom:1px solid #e3e8f0">
+    <div style="max-width:1200px;margin:0 auto;padding:14px 32px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:20px">
+      <div style="display:flex;align-items:center;gap:20px;min-width:0">
+        <a href="../../index.html#proyectos" style="text-decoration:none;color:#64748b;font-size:14px;white-space:nowrap">← Proyectos</a>
+        <span style="width:1px;height:18px;background:#d5dce6"></span>
+        <span style="font-weight:800;font-size:18px;letter-spacing:-0.03em;white-space:nowrap">Edu<span style="color:#1d4ed8">Control</span></span>
+      </div>
+      <nav class="nav" style="display:flex;gap:22px;font-size:14px;white-space:nowrap">
+        <a href="#flujo" style="color:#475569;text-decoration:none">Flujo</a>
+        <a href="#roles" style="color:#475569;text-decoration:none">Roles</a>
+        <a href="#arquitectura" style="color:#475569;text-decoration:none">Arquitectura</a>
+      </nav>
+      <a href="https://github.com/anttobocc/ProyectoGestorCursos" target="_blank" class="btn" style="justify-self:end;text-decoration:none;display:flex;align-items:center;gap:8px;background:#071a2b;color:#fff;padding:9px 16px;border-radius:8px;font-weight:600;font-size:13.5px;white-space:nowrap"><span style="font-family:'JetBrains Mono',monospace;color:#2dd4bf">&lt;/&gt;</span>Código</a>
+    </div>
+    <div class="progress" aria-hidden="true"></div>
+  </header>
+
+  <section style="background-color:#f7f9fc;background-image:linear-gradient(#e7ecf3 1px,transparent 1px),linear-gradient(90deg,#e7ecf3 1px,transparent 1px);background-size:44px 44px;border-bottom:1px solid #e3e8f0">
+    <div class="hero-in" style="max-width:1200px;margin:0 auto;padding:88px 32px 0;display:flex;flex-direction:column;align-items:center;text-align:center">
+      <div style="display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #dbe3ee;border-radius:999px;padding:6px 14px 6px 8px;font-size:13px;color:#334155;flex-wrap:wrap;justify-content:center">
+        <span style="background:#ccfbf1;color:#0f766e;font-weight:700;font-size:11.5px;padding:3px 9px;border-radius:999px;letter-spacing:0.04em">PROYECTO</span>
+        <span style="font-family:'JetBrains Mono',monospace">Gestor de Cursos · Django 6.1</span>
+      </div>
+      <h1 style="margin:28px 0 0;font-weight:800;font-size:clamp(48px,7vw,96px);line-height:0.98;letter-spacing:-0.05em;max-width:980px"><span class="w">La</span> <span class="w">gestión</span> <span class="w">académica,</span> <span style="color:#1d4ed8"><span class="w">en</span> <span class="w">un</span> <span class="w">solo</span> <span class="w">panel.</span></span></h1>
+      <p style="margin:24px 0 0;font-size:19px;line-height:1.55;color:#475569;max-width:680px;text-wrap:pretty">Proyecto Gestor de Cursos es una aplicación web desarrollada para facilitar la gestión académica de cursos, estudiantes, profesores y entregables.</p>
+      <div style="display:flex;gap:12px;margin-top:32px;flex-wrap:wrap;justify-content:center">
+        <a href="https://github.com/anttobocc/ProyectoGestorCursos" target="_blank" class="btn" style="text-decoration:none;background:#1d4ed8;color:#fff;padding:13px 22px;border-radius:10px;font-weight:600;font-size:15px;white-space:nowrap;box-shadow:0 8px 20px -8px rgba(29,78,216,0.6)">Ver repositorio</a>
+        <a href="#roles" class="btn" style="text-decoration:none;background:#fff;color:#0b1324;border:1px solid #d5dce6;padding:12px 22px;border-radius:10px;font-weight:600;font-size:15px;white-space:nowrap">Ver pantallas</a>
+      </div>
+      <div style="display:flex;gap:28px;margin-top:28px;font-size:13.5px;color:#64748b;flex-wrap:wrap;justify-content:center">
+        <span style="white-space:nowrap">Antonella Boccalandro</span><span style="white-space:nowrap">Candela Mimbi Cáceres</span><span style="white-space:nowrap">Desarrollo de Software</span>
+      </div>
+
+      <div onClick="{{ openHero }}" class="hero-frame" style="margin-top:56px;width:100%;background:#071a2b;border-radius:16px 16px 0 0;padding:0 0 0;overflow:hidden;cursor:zoom-in;box-shadow:0 -20px 60px -30px rgba(7,26,43,0.5);text-align:left">
+        <div style="display:flex;align-items:center;gap:14px;padding:12px 16px;border-bottom:1px solid #12304a">
+          <div style="display:flex;gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:#1f3a55"></span><span style="width:10px;height:10px;border-radius:50%;background:#1f3a55"></span><span style="width:10px;height:10px;border-radius:50%;background:#1f3a55"></span></div>
+          <div style="flex:1;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#7dd3c8;background:#0b2238;border-radius:6px;padding:5px 12px;white-space:nowrap;overflow:hidden"><span class="url-t">127.0.0.1:8000/</span></div>
+        </div>
+        <img src="assets/edu/hero.webp" alt="Pantalla de bienvenida de EduControl" style="display:block;width:100%;height:auto">
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#071a2b;color:#cbd5e1">
+    <div class="rv st" style="max-width:1200px;margin:0 auto;padding:22px 32px;display:flex;flex-wrap:wrap;gap:12px 36px;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:14px">
+      <span style="color:#5b7a96">stack:</span>
+      <span>Python</span><span>Django</span><span>SQLite</span><span>HTML5</span><span>CSS3</span><span>Bootstrap</span><span>widget_tweaks</span><span>Git</span><span>GitHub</span><span>VS Code</span>
+    </div>
+  </section>
+
+  <section id="flujo" style="max-width:1200px;margin:0 auto;padding:110px 32px 0">
+    <div class="rv" style="max-width:720px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#0d9488;font-weight:600">// 01 · flujo</div>
+      <h2 style="margin:14px 0 0;font-weight:800;font-size:clamp(34px,4vw,48px);line-height:1.05;letter-spacing:-0.04em">De la pantalla de ingreso al panel de cada usuario</h2>
+      <p style="margin:18px 0 0;font-size:17px;line-height:1.6;color:#475569;text-wrap:pretty">El sistema permite administrar la información mediante operaciones CRUD, realizar búsquedas, registrar y modificar datos, gestionar entregables y asociarlos con los estudiantes correspondientes.</p>
+    </div>
+    <div class="rv st" style="margin-top:44px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px">
+      <div onClick="{{ openLogin }}" class="lift zoom" style="background:#fff;border:1px solid #e3e8f0;border-radius:16px;overflow:hidden;cursor:zoom-in;display:flex;flex-direction:column">
+        <img src="assets/edu/login.webp" alt="Inicio de sesión" style="display:block;width:100%;height:auto;border-bottom:1px solid #e3e8f0">
+        <div style="padding:22px 24px;display:flex;flex-direction:column;gap:8px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#1d4ed8">GET /login/</div>
+          <div style="font-weight:700;font-size:19px;letter-spacing:-0.02em">Iniciar sesión</div>
+          <div style="font-size:15px;line-height:1.55;color:#475569">Si alguien no inició sesión, ve la pantalla de bienvenida.</div>
+        </div>
+      </div>
+      <div class="lift code-lines" style="background:#071a2b;color:#e2e8f0;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:18px;font-family:'JetBrains Mono',monospace;font-size:14px;line-height:1.7">
+        <div style="color:#5b7a96"># Al iniciar sesión, la página de inicio (/)</div>
+        <div style="color:#5b7a96;margin-top:-18px"># manda a cada usuario a su panel según su rol.</div>
+        <div><span style="color:#60a5fa">def</span> <span style="color:#2dd4bf">inicio</span>(request):</div>
+        <div style="padding-left:20px;margin-top:-18px"><span style="color:#60a5fa">if</span> es_admin: <span style="color:#94a3b8">→</span> panel_admin</div>
+        <div style="padding-left:20px;margin-top:-18px"><span style="color:#60a5fa">elif</span> es_profesor: <span style="color:#94a3b8">→</span> mis_cursos</div>
+        <div style="padding-left:20px;margin-top:-18px"><span style="color:#60a5fa">elif</span> es_estudiante: <span style="color:#94a3b8">→</span> mis_cursos</div>
+        <div style="padding-left:20px;margin-top:-18px"><span style="color:#60a5fa">else</span>: <span style="color:#94a3b8">→</span> bienvenida</div>
+        <div style="margin-top:auto;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;color:#7c93ab;border-top:1px solid #12304a;padding-top:14px">Esquema ilustrativo del redireccionamiento por rol.</div>
+      </div>
+      <div class="lift" style="background:#fff;border:1px solid #e3e8f0;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:14px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#0d9488">permisos</div>
+        <div style="font-weight:700;font-size:19px;letter-spacing:-0.02em">Tres roles, tres paneles</div>
+        <div style="display:flex;flex-direction:column;border-top:1px solid #eef2f7">
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #eef2f7;font-size:14.5px"><span style="font-weight:600">Administrador</span><span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#64748b">todo el sistema</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #eef2f7;font-size:14.5px"><span style="font-weight:600">Profesor</span><span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#64748b">solo sus cursos</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #eef2f7;font-size:14.5px"><span style="font-weight:600">Estudiante</span><span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#64748b">registro propio</span></div>
+        </div>
+        <div style="font-size:14px;line-height:1.55;color:#64748b">Para ser administrador hay que pertenecer al grupo de Django "Administrador". Tener is_superuser no alcanza.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="roles" style="max-width:1200px;margin:0 auto;padding:110px 32px 40px">
+    <div style="display:flex;justify-content:space-between;align-items:end;gap:24px 40px;flex-wrap:wrap;margin-bottom:32px">
+      <div class="rv" style="flex:1 1 420px;min-width:0">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#0d9488;font-weight:600">// 02 · roles</div>
+        <h2 style="margin:14px 0 0;font-weight:800;font-size:48px;line-height:1.05;letter-spacing:-0.04em">Un panel para cada rol</h2>
+      </div>
+      <div class="tabs rv" style="position:relative;display:flex;gap:6px;background:#e6edf6;padding:5px;border-radius:12px">
+        <span class="ind" style="border-radius:9px;background:#071a2b"></span>
+        <sc-for list="{{ roleTabs }}" as="t" hint-placeholder-count="3">
+          <sc-if value="{{ t.active }}" hint-placeholder-val="{{ false }}">
+            <button class="on" style="position:relative;z-index:1;border:none;background:transparent;color:#fff;font:600 15px 'Plus Jakarta Sans',sans-serif;padding:10px 20px;border-radius:9px;cursor:pointer;white-space:nowrap">{{ t.label }}</button>
+          </sc-if>
+          <sc-if value="{{ t.inactive }}" hint-placeholder-val="{{ true }}">
+            <button onClick="{{ t.select }}" class="tab-off" style="position:relative;z-index:1;border:none;background:transparent;color:#334155;font:500 15px 'Plus Jakarta Sans',sans-serif;padding:10px 20px;border-radius:9px;cursor:pointer;white-space:nowrap">{{ t.label }}</button>
+          </sc-if>
+        </sc-for>
+      </div>
+    </div>
+    <div class="rv" style="display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start">
+      <div style="flex:1 1 260px;display:flex;flex-direction:column;gap:18px">
+        <div class="role-intro" style="font-size:15px;line-height:1.55;color:#475569">{{ role.intro }}</div>
+        <ul class="role-items st" style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;border-top:1px solid #dbe3ee">
+          <sc-for list="{{ role.items }}" as="it" hint-placeholder-count="5">
+            <li style="padding:12px 0;border-bottom:1px solid #dbe3ee;font-size:14.5px;line-height:1.5;color:#334155"><strong style="color:#0b1324;font-weight:700">{{ it.t }}</strong> {{ it.d }}</li>
+          </sc-for>
+        </ul>
+      </div>
+      <div style="flex:2.6 1 520px;min-width:0">
+        <div class="tabs" style="position:relative;display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
+          <span class="ind" style="border-radius:999px;background:#0d9488"></span>
+          <sc-for list="{{ shotTabs }}" as="s" hint-placeholder-count="4">
+            <sc-if value="{{ s.active }}" hint-placeholder-val="{{ false }}">
+              <button class="on" style="position:relative;z-index:1;border:1px solid #0d9488;background:transparent;color:#fff;font:600 14px 'Plus Jakarta Sans',sans-serif;padding:8px 16px;border-radius:999px;cursor:pointer;white-space:nowrap">{{ s.label }}</button>
+            </sc-if>
+            <sc-if value="{{ s.inactive }}" hint-placeholder-val="{{ true }}">
+              <button onClick="{{ s.select }}" class="tab-off" style="position:relative;z-index:1;border:1px solid #dbe3ee;background:transparent;color:#334155;font:500 14px 'Plus Jakarta Sans',sans-serif;padding:8px 16px;border-radius:999px;cursor:pointer;white-space:nowrap">{{ s.label }}</button>
+            </sc-if>
+          </sc-for>
+        </div>
+        <div onClick="{{ openShot }}" class="shot-frame" style="background:#071a2b;border-radius:18px;padding:12px;box-shadow:0 30px 60px -30px rgba(7,26,43,0.45);cursor:zoom-in">
+          {{ shotImg }}
+        </div>
+        <p class="shot-cap" style="margin:14px 4px 0;font-size:15px;color:#64748b">{{ shot.caption }}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="rv" style="max-width:1200px;margin:0 auto;padding:100px 32px 0">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#0d9488;font-weight:600">// 03 · funcionalidades</div>
+    <h2 style="margin:14px 0 36px;font-weight:800;font-size:clamp(34px,4vw,48px);line-height:1.05;letter-spacing:-0.04em">Funcionalidades principales</h2>
+    <div class="st feat" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:1px;background:#e3e8f0;border:1px solid #e3e8f0;border-radius:16px;overflow:hidden">
+      <sc-for list="{{ features }}" as="f" hint-placeholder-count="18">
+        <div style="background:#fff;padding:18px 20px;display:flex;gap:12px;align-items:flex-start;font-size:14.5px;line-height:1.45;color:#1e293b">
+          <span class="ck" style="flex:0 0 18px;height:18px;border-radius:5px;background:#ccfbf1;color:#0f766e;font-size:12px;font-weight:700;display:grid;place-items:center;margin-top:1px">✓</span>
+          <span>{{ f }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="arquitectura" style="max-width:1200px;margin:0 auto;padding:110px 32px 0">
+    <div class="rv" style="max-width:720px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#0d9488;font-weight:600">// 04 · arquitectura</div>
+      <h2 style="margin:14px 0 0;font-weight:800;font-size:clamp(34px,4vw,48px);line-height:1.05;letter-spacing:-0.04em">Modelos y estructura del proyecto</h2>
+      <p style="margin:18px 0 0;font-size:17px;line-height:1.6;color:#475569;text-wrap:pretty">La versión actual del proyecto se encuentra organizada utilizando Django, separando la configuración del proyecto de la aplicación encargada de las funcionalidades principales.</p>
+    </div>
+    <div class="rv st" style="margin-top:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:20px;align-items:start">
+      <div style="background:#071a2b;border-radius:16px;overflow:hidden">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-bottom:1px solid #12304a;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#7c93ab"><span style="color:#e2e8f0">myApp/models.py</span><span>9 modelos</span></div>
+        <div style="padding:18px 22px;font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.6;display:flex;flex-direction:column;gap:12px" class="code-lines">
+          <sc-for list="{{ models }}" as="mo" hint-placeholder-count="9">
+            <div>
+              <div><span style="color:#60a5fa">class</span> <span style="color:#2dd4bf">{{ mo.name }}</span><span style="color:#94a3b8">(models.Model):</span></div>
+              <div style="padding-left:20px;color:#7c93ab;font-size:13px"># {{ mo.desc }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div class="st" style="display:flex;flex-direction:column;gap:20px">
+        <div style="background:#fff;border:1px solid #e3e8f0;border-radius:16px;overflow:hidden">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-bottom:1px solid #eef2f7;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#64748b"><span style="color:#0b1324">$ tree -L 1</span><span>estructura</span></div>
+          <div class="code-lines" style="padding:16px 20px;font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.5">
+            <sc-for list="{{ folders }}" as="fo" hint-placeholder-count="5">
+              <div style="display:flex;flex-wrap:wrap;gap:2px 14px;padding:6px 0">
+                <span style="flex:0 0 150px;white-space:nowrap;color:#1d4ed8"><span style="color:#94a3b8">{{ fo.branch }}</span> {{ fo.path }}</span>
+                <span style="flex:1 1 180px;color:#64748b;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px">{{ fo.desc }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="background:#fff;border:1px solid #e3e8f0;border-radius:16px;padding:22px 24px;display:flex;flex-direction:column;gap:14px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#64748b">settings.py</div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:13px;background:#eff6ff;color:#1d4ed8;padding:6px 10px;border-radius:6px">LANGUAGE_CODE = "es-ar"</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:13px;background:#f0fdfa;color:#0f766e;padding:6px 10px;border-radius:6px">TIME_ZONE = Buenos Aires</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:13px;background:#f1f5f9;color:#334155;padding:6px 10px;border-radius:6px">DATABASE = SQLite</span>
+          </div>
+          <div style="font-size:14px;line-height:1.55;color:#64748b">Está configurada en español de Argentina y con la hora de Buenos Aires. Se usaron formularios y migraciones de Django para la gestión y validación de los datos.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="max-width:1200px;margin:0 auto;padding:110px 32px 48px">
+    <div class="rv cta" style="background:#071a2b;border-radius:20px;padding:56px 32px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px;background-image:linear-gradient(#0d2740 1px,transparent 1px),linear-gradient(90deg,#0d2740 1px,transparent 1px);background-size:44px 44px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#2dd4bf">$ git clone anttobocc/ProyectoGestorCursos<span class="caret"></span></div>
+      <h2 style="margin:0;font-weight:800;font-size:clamp(30px,3.6vw,44px);line-height:1.08;letter-spacing:-0.04em;color:#fff;max-width:640px">El código completo está en GitHub</h2>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px">
+        <a href="https://github.com/anttobocc/ProyectoGestorCursos" target="_blank" class="btn" style="text-decoration:none;background:#2dd4bf;color:#071a2b;padding:13px 22px;border-radius:10px;font-weight:700;font-size:15px;white-space:nowrap">Ver repositorio</a>
+        <a href="../../index.html#proyectos" class="btn" style="text-decoration:none;border:1px solid #2a4a68;color:#e2e8f0;padding:12px 22px;border-radius:10px;font-weight:600;font-size:15px;white-space:nowrap">Más proyectos</a>
+      </div>
+    </div>
+    <div style="margin-top:24px;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size:13.5px;color:#64748b">
+      <span style="white-space:nowrap">Antonella Boccalandro · Candela Mimbi Cáceres</span><span style="white-space:nowrap">Desarrollado y diseñado por anttobocc ♡</span>
+    </div>
+  </section>
+
+  <sc-if value="{{ lightboxOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeLightbox }}" class="lb" style="position:fixed;inset:0;z-index:50;background:rgba(4,14,24,0.9);display:flex;align-items:center;justify-content:center;padding:48px;cursor:zoom-out">
+      {{ lightboxImg }}
+      <div style="position:absolute;top:20px;right:28px;color:#e2e8f0;font-size:14px">Esc o click para cerrar</div>
+    </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { role: 0, shot: 0, lightbox: null };
+  componentDidMount() {
+    this.onKey = e => { if (e.key === 'Escape') this.setState({ lightbox: null }); };
+    window.addEventListener('keydown', this.onKey);
+    this.reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.last = { role: this.state.role, shot: this.state.shot };
+    this.index();
+    requestAnimationFrame(() => this.setupMotion());
+  }
+  componentDidUpdate() {
+    const { role, shot } = this.state;
+    if (!this.last || (role === this.last.role && shot === this.last.shot)) return;
+    const roleChanged = role !== this.last.role;
+    this.last = { role, shot };
+    this.placeInds(true);
+    if (this.reduced) return;
+    const ease = 'cubic-bezier(0.23, 1, 0.32, 1)';
+    const img = document.querySelector('.shot-frame img');
+    if (img) {
+      img.style.opacity = 0;
+      (img.decode ? img.decode() : Promise.resolve()).catch(() => {}).then(() => {
+        img.style.opacity = '';
+        img.animate([{ opacity: 0, transform: 'translateY(10px) scale(0.985)' }, { opacity: 1, transform: 'none' }], { duration: 500, easing: ease });
+      });
+    }
+    const cap = document.querySelector('.shot-cap');
+    if (cap) cap.animate([{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: 400, delay: 80, easing: ease, fill: 'backwards' });
+    if (roleChanged) {
+      [document.querySelector('.role-intro'), ...document.querySelectorAll('.role-items > *')].forEach((el, i) => el && el.animate(
+        [{ opacity: 0, transform: 'translateX(-10px)' }, { opacity: 1, transform: 'none' }],
+        { duration: 450, delay: i * 45, easing: ease, fill: 'backwards' }));
+    }
+  }
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.onKey);
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('resize', this.onResize);
+    if (this.io) this.io.disconnect();
+  }
+  index() {
+    document.querySelectorAll('.hero-in .w').forEach((el, i) => el.style.setProperty('--i', i));
+    document.querySelectorAll('.st').forEach(st => [...st.children].forEach((el, i) => el.style.setProperty('--i', i)));
+    document.querySelectorAll('.code-lines').forEach(c => [...c.children].forEach((el, i) => el.style.setProperty('--j', i)));
+  }
+  setupMotion() {
+    this.index();
+    this.io = new IntersectionObserver(entries => entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); this.io.unobserve(e.target); }
+    }), { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+    document.querySelectorAll('.rv').forEach(el => this.io.observe(el));
+    this.bar = document.querySelector('.progress');
+    this.hdr = document.querySelector('.hdr');
+    this.hero = document.querySelector('.hero-frame');
+    this.onScroll = () => {
+      if (this.ticking) return;
+      this.ticking = true;
+      requestAnimationFrame(() => { this.ticking = false; this.paintScroll(); });
+    };
+    this.onResize = () => { this.placeInds(false); this.onScroll(); };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    window.addEventListener('resize', this.onResize);
+    this.paintScroll();
+    this.placeInds(false);
+    if (document.fonts) document.fonts.ready.then(() => this.placeInds(false));
+  }
+  paintScroll() {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    if (this.bar) this.bar.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
+    if (this.hdr) this.hdr.classList.toggle('scrolled', scrollY > 8);
+    if (this.hero && !this.reduced) {
+      // La captura del hero arranca inclinada y se endereza a medida que sube.
+      const top = this.hero.getBoundingClientRect().top, vh = innerHeight;
+      const p = Math.min(1, Math.max(0, 1 - (top - vh * 0.15) / (vh * 0.6)));
+      this.hero.style.transform = `perspective(1600px) rotateX(${12 * (1 - p)}deg) scale(${0.95 + 0.05 * p})`;
+    }
+  }
+  placeInds(animate) {
+    // Indicador deslizante detrás de la pestaña activa.
+    document.querySelectorAll('.tabs').forEach(t => {
+      const ind = t.querySelector('.ind'), on = t.querySelector('.on');
+      if (!ind || !on) return;
+      ind.classList.toggle('no-anim', !animate);
+      ind.style.width = on.offsetWidth + 'px';
+      ind.style.height = on.offsetHeight + 'px';
+      ind.style.transform = `translate(${on.offsetLeft}px, ${on.offsetTop}px)`;
+    });
+  }
+  renderVals() {
+    const P = 'assets/edu/';
+    const roles = [
+      { label: 'Administrador', intro: 'Es el usuario que pertenece al grupo de Django "Administrador". Tener is_superuser no alcanza.',
+        items: [
+          { t: 'Panel', d: 'con el total de cursos, estudiantes y profesores.' },
+          { t: 'Cursos:', d: 'crearlos, editarlos y eliminarlos, asignarles profesores y alumnos, ver el detalle, dar de baja a un alumno y ver las reseñas.' },
+          { t: 'Profesores:', d: 'crearlos (con usuario y contraseña), editarlos y eliminarlos.' },
+          { t: 'Estudiantes:', d: 'crearlos, editarlos y eliminarlos, y ver el detalle de cada uno. Al cargarle el documento, se le crea la cuenta de acceso.' },
+          { t: 'Buscar', d: 'cursos por camada.' }
+        ],
+        shots: [
+          { label: 'Cursos', src: 'a-cursos', caption: 'Panel de cursos con docentes, alumnos y acciones de gestión.' },
+          { label: 'Detalle de curso', src: 'a-curso', caption: 'Alumnos del curso con asistencia, promedio y proyectos.' },
+          { label: 'Estudiantes', src: 'a-estudiantes', caption: 'Control de estudiantes con búsqueda y filtro por estado.' },
+          { label: 'Docentes', src: 'a-docentes', caption: 'Cuerpo docente con búsqueda por nombre o apellido.' }
+        ] },
+      { label: 'Profesor', intro: 'Solo ve y maneja sus propios cursos.',
+        items: [
+          { t: 'Mis cursos:', d: 'el listado de sus cursos, donde puede cambiar la portada.' },
+          { t: 'Detalle del curso:', d: 'los alumnos inscriptos con su asistencia, promedio y avance.' },
+          { t: 'Notas:', d: 'agregar, editar o eliminar notas. El promedio se recalcula automáticamente.' },
+          { t: 'Tomar asistencia:', d: 'elige una fecha y marca presente o ausente.' },
+          { t: 'Entregables:', d: 'crearlos, editarlos y eliminarlos, y ver quién entregó.' },
+          { t: 'Calificar entregas:', d: 've si llegó a tiempo o tarde y le pone nota.' },
+          { t: 'Reseñas:', d: 've las opiniones que dejaron los alumnos.' }
+        ],
+        shots: [
+          { label: 'Mis cursos', src: 'p-cursos', caption: 'Comisiones a cargo del profesor.' },
+          { label: 'Alumnos', src: 'p-alumnos', caption: 'Alumnos del curso con asistencia, promedio y proyectos.' },
+          { label: 'Asistencia', src: 'p-asistencia', caption: 'Toma de asistencia por fecha. El porcentaje se calcula solo.' },
+          { label: 'Entregas', src: 'p-entregas', caption: 'Entregas de un trabajo práctico: a tiempo, fuera de término o sin entregar, con su nota.' }
+        ] },
+      { label: 'Estudiante', intro: 'Se registra en /register/. Su documento pasa a ser su nombre de usuario.',
+        items: [
+          { t: 'Mis cursos:', d: 'los cursos en los que está inscripto, con su portada.' },
+          { t: 'Detalle del curso:', d: 'sus notas, su asistencia y el estado de cada entregable publicado.' },
+          { t: 'Subir entregas:', d: 'sube el archivo de un entregable y lo puede volver a subir para reemplazarlo.' },
+          { t: 'Reseña:', d: 'estrellas y comentario, una sola vez por curso.' }
+        ],
+        shots: [
+          { label: 'Detalle del curso', src: 'e-curso', caption: 'Asistencia, promedio y notas del estudiante en el curso.' },
+          { label: 'Reseña', src: 'e-resena', caption: 'Opinión sobre el curso con calificación por estrellas.' }
+        ] }
+    ];
+    const role = roles[this.state.role];
+    const s0 = role.shots[this.state.shot];
+    const shot = { ...s0, src: P + s0.src + '.webp' };
+    const open = src => () => this.setState({ lightbox: src });
+    const features = ['Gestión de cursos','Gestión de estudiantes','Gestión de profesores','Gestión de entregables','Registro de información','Modificación de datos','Eliminación de registros','Búsqueda de cursos','Asociación de entregables con estudiantes','Validación de datos mediante formularios','Gestión de cambios mediante migraciones de Django','Autenticación de usuarios','Roles de Administrador y Profesor','Gestión de asistencia y promedio por curso','Gestión de alumnos y entregables diferenciada por curso','Permisos de acceso según rol','Acceso del Profesor únicamente a sus cursos','Registro de entregas de estudiantes'];
+    const models = [
+      ['Estudiante', 'nombre, apellido, email, documento (único) y usuario vinculado'],
+      ['Profesor', 'nombre, apellido, email, profesión y usuario vinculado'],
+      ['Curso', 'nombre, camada, portada (imagen) y uno o varios profesores'],
+      ['Inscripcion', 'estudiante + curso: asistencia (%), promedio, proyectos y observaciones'],
+      ['Entregable', 'consigna, archivo adjunto, publicación, vencimiento y si está publicado'],
+      ['Entrega', 'archivo que sube el alumno, con su fecha y nota'],
+      ['Nota', 'calificación de 0 a 10: entregable, participación o evaluación'],
+      ['RegistroAsistencia', 'presente o ausente en una fecha'],
+      ['Resena', 'estrellas y comentario, una sola por alumno y curso']
+    ].map(([name, desc]) => ({ name, desc }));
+    const folders = [
+      ['├──', 'Proyecto1/', 'settings y urls'],
+      ['├──', 'myApp/', 'modelos, vistas, formularios, templates y migraciones'],
+      ['├──', 'static/', 'CSS responsive e imágenes de bienvenida'],
+      ['├──', 'media/', 'portadas, consignas y entregas'],
+      ['└──', 'manage.py', 'apunta a Proyecto1.settings']
+    ].map(([branch, path, desc]) => ({ branch, path, desc }));
+    return {
+      roleTabs: roles.map((r, i) => ({ label: r.label, active: i === this.state.role, inactive: i !== this.state.role, select: () => this.setState({ role: i, shot: 0 }) })),
+      shotTabs: role.shots.map((s, i) => ({ label: s.label, active: i === this.state.shot, inactive: i !== this.state.shot, select: () => this.setState({ shot: i }) })),
+      role, shot, features, models, folders,
+      openHero: open(P + 'hero.webp'), openLogin: open(P + 'login.webp'), openShot: open(shot.src),
+      lightboxOpen: !!this.state.lightbox,
+      shotImg: React.createElement('img', { src: shot.src, alt: shot.label, style: { display: 'block', width: '100%', height: 'auto', borderRadius: 10 } }),
+      lightboxImg: this.state.lightbox ? React.createElement('img', { className: 'lb-img', src: this.state.lightbox, alt: '', style: { maxWidth: '100%', maxHeight: '100%', borderRadius: 10, boxShadow: '0 30px 80px rgba(0,0,0,0.5)' } }) : null,
+      closeLightbox: () => this.setState({ lightbox: null })
+    };
+  }
+}
+
+</script>
+</body>
+</html>
