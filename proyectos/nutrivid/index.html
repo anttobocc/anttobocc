@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nutrivid · Antonella Boccalandro</title>
+  <meta name="description" content="Nutrivid: tienda online para una dietética con múltiples sucursales, con catálogo, carrito, pedidos por WhatsApp y panel de administración." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%231c2318'/%3E%3Ctext x='50' y='64' font-family='sans-serif' font-weight='800' font-size='44' fill='%23f5f4ec' text-anchor='middle'%3En%3C/text%3E%3Ccircle cx='70' cy='62' r='5' fill='%23e56aa8'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preload" as="image" href="img/d-hero.webp" />
+  <style>
+    :root {
+      --bg: #f5f4ec;
+      --ink: #1c2318;
+      --ink-2: #3d4433;
+      --muted: #5a6150;
+      --muted-2: #6b7260;
+      --line: #e3e1d3;
+      --line-2: #d6d3c2;
+      --olive: #34401f;
+      --olive-2: #2a3322;
+      --olive-line: #36402c;
+      --lime: #c9d79a;
+      --pink: #e56aa8;
+      --pink-2: #d9559a;
+      --chip: #e9e7da;
+      --display: 'Bricolage Grotesque', sans-serif;
+      --body: 'Schibsted Grotesk', system-ui, sans-serif;
+      --gutter: 40px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); -webkit-font-smoothing: antialiased; }
+    img { max-width: 100%; }
+    a { color: var(--olive); }
+    a:hover { color: var(--pink-2); }
+    :focus-visible { outline: 2px solid var(--pink); outline-offset: 3px; }
+
+    .wrap { max-width: 1240px; margin: 0 auto; padding-left: var(--gutter); padding-right: var(--gutter); }
+    .section { padding-top: 100px; padding-bottom: 40px; }
+
+    /* Encabezado */
+    .top { position: sticky; top: 0; z-index: 20; background: rgba(245, 244, 236, 0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+    .top .wrap { padding-top: 16px; padding-bottom: 16px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .back { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); font-weight: 500; font-size: 15px; }
+    .back span:first-child { font-size: 18px; }
+    .top nav { display: flex; gap: 28px; font-size: 15px; color: #4b5240; }
+    .top nav a { color: inherit; text-decoration: none; }
+    .top nav a:hover { color: var(--pink-2); }
+    .btn { display: inline-block; text-decoration: none; border-radius: 999px; font-weight: 600; transition: transform .15s ease; }
+    .btn:active { transform: scale(0.97); }
+    .btn--dark { background: var(--olive); color: var(--bg); padding: 10px 20px; font-size: 14px; }
+    .btn--dark:hover { color: var(--bg); background: var(--ink); }
+
+    /* Hero */
+    .hero { background: var(--ink); color: var(--bg); }
+    .hero .wrap { padding-top: 88px; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 64px; align-items: end; }
+    .kicker { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 28px; font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--lime); }
+    .kicker .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--lime); }
+    .hero h1 { margin: 0; font-family: var(--display); font-weight: 800; font-size: clamp(64px, 11vw, 132px); line-height: 0.9; letter-spacing: -0.045em; }
+    .pink { color: var(--pink); }
+    .lead { margin: 32px 0 0; font-size: clamp(18px, 2vw, 22px); line-height: 1.45; color: #dcdfcf; max-width: 560px; text-wrap: pretty; }
+    .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--olive-line); border: 1px solid var(--olive-line); border-radius: 20px; overflow: hidden; margin-bottom: 6px; }
+    .facts > div { background: var(--ink); padding: 20px 22px; }
+    .facts .k { font-size: 13px; color: #9aa38a; margin-bottom: 6px; }
+    .facts .v { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .facts .v i { width: 8px; height: 8px; border-radius: 50%; background: var(--pink); flex: none; }
+    .browser { margin-top: 72px; border-radius: 22px 22px 0 0; overflow: hidden; border: 1px solid var(--olive-line); border-bottom: none; background: var(--olive-2); padding: 14px 14px 0; }
+    .browser-dots { display: flex; gap: 7px; padding: 0 4px 12px; }
+    .browser-dots span { width: 11px; height: 11px; border-radius: 50%; background: #4b5640; }
+    .browser img { border-radius: 12px 12px 0 0; }
+    .h1-dot { display: inline-block; }
+
+    /* Imágenes ampliables */
+    .zoom { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; font: inherit; color: inherit; text-align: left; }
+    .zoom img { display: block; width: 100%; height: auto; }
+
+    /* Títulos de sección */
+    .eyebrow { font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pink-2); font-weight: 600; }
+    .h2 { margin: 16px 0 0; font-family: var(--display); font-weight: 700; font-size: clamp(36px, 5vw, 52px); line-height: 1; letter-spacing: -0.03em; text-wrap: balance; }
+    .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 64px; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 24px 40px; margin-bottom: 36px; flex-wrap: wrap; }
+
+    /* Contexto */
+    #contexto { padding-top: 120px; }
+    .prose { display: flex; flex-direction: column; gap: 20px; font-size: 20px; line-height: 1.55; color: var(--ink-2); padding-top: 34px; }
+    .prose p { margin: 0; text-wrap: pretty; }
+    .steps { margin-top: 80px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+    .card { background: #fff; border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 14px; }
+    .card--pink { background: var(--pink); }
+    .num { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid var(--ink); display: grid; place-items: center; font-weight: 600; }
+    .card--pink .num { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+    .card-title { font-family: var(--display); font-weight: 700; font-size: 24px; letter-spacing: -0.02em; }
+    .card-text { font-size: 16px; line-height: 1.5; color: var(--muted); }
+    .card--pink .card-text { color: var(--ink); }
+
+    /* Pestañas */
+    .tabs { display: flex; gap: 8px; background: var(--chip); padding: 5px; border-radius: 999px; }
+    .tabs button { border: none; background: transparent; color: var(--ink-2); font: 500 15px var(--body); padding: 10px 20px; border-radius: 999px; cursor: pointer; transition: background .2s ease, color .2s ease; }
+    .tabs button[aria-selected="true"] { background: var(--ink); color: var(--bg); font-weight: 600; }
+    .frame { border-radius: 22px; padding: 14px; }
+    .frame img { border-radius: 12px; transition: opacity .2s ease; }
+    .frame--light { background: #fff; box-shadow: 0 1px 0 var(--line), 0 30px 60px -30px rgba(28, 35, 24, 0.25); }
+    .frame--dark { background: var(--ink); }
+    .caption { margin: 14px 4px 0; font-size: 15px; color: var(--muted-2); }
+
+    .features { margin-top: 56px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+    .feature { border-top: 2px solid var(--ink); padding-top: 22px; }
+    .feature-title { font-family: var(--display); font-weight: 700; font-size: 26px; letter-spacing: -0.02em; margin-bottom: 16px; }
+    .feature p { margin: -6px 0 16px; font-size: 16px; line-height: 1.5; color: var(--muted); }
+    .checklist { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 20px; font-size: 16px; color: var(--ink-2); }
+    .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pills span { padding: 8px 14px; border-radius: 999px; background: #fff; border: 1px solid var(--line); font-size: 15px; }
+    .pills--lime span { background: var(--lime); border-color: var(--lime); }
+
+    /* Mobile + WhatsApp */
+    .mobile { background: var(--ink); color: var(--bg); border-radius: 28px; padding: 56px; display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.6fr); gap: 48px; align-items: center; }
+    .mobile .eyebrow { color: var(--lime); }
+    .mobile .h2 { font-size: clamp(32px, 4.5vw, 48px); line-height: 1.02; }
+    .mobile p { margin: 24px 0 0; font-size: 18px; line-height: 1.55; color: #c8ccbb; text-wrap: pretty; }
+    .phones { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; align-items: start; }
+    .phone { display: flex; flex-direction: column; gap: 12px; }
+    .phone .zoom { background: var(--olive-2); border-radius: 26px; padding: 7px; border: 1px solid #3a4530; }
+    .phone img { border-radius: 20px; }
+    .phone span { font-size: 14px; color: #9aa38a; text-align: center; }
+
+    /* Roles */
+    .roles { margin-top: 40px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+    .role { background: #fff; border-radius: 20px; padding: 30px; display: flex; flex-direction: column; gap: 12px; }
+    .role .tag { font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted-2); }
+    .role .name { font-family: var(--display); font-weight: 700; font-size: 28px; letter-spacing: -0.02em; }
+    .role p { margin: 0; font-size: 16px; line-height: 1.55; color: var(--ink-2); }
+    .role--dark { background: var(--olive); color: var(--bg); }
+    .role--dark .tag { color: var(--lime); }
+    .role--dark p { color: #dcdfcf; }
+
+    /* Stack */
+    .stack { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--line-2); column-gap: 24px; }
+    .stack > div { padding: 22px 0; border-bottom: 1px solid var(--line-2); }
+    .stack .k { font-size: 14px; color: var(--muted-2); margin-bottom: 8px; }
+    .stack .v { font-size: 20px; font-weight: 600; }
+
+    /* En curso */
+    .todo { margin: 0; padding: 0; list-style: none; font-size: 18px; color: var(--ink-2); counter-reset: n; }
+    .todo li { display: grid; grid-template-columns: 48px 1fr; padding: 14px 0; border-bottom: 1px solid var(--line); counter-increment: n; }
+    .todo li::before { content: counter(n, decimal-leading-zero); color: #9aa38a; font-variant-numeric: tabular-nums; }
+
+    /* Pie */
+    .foot { padding-top: 100px; padding-bottom: 60px; }
+    .cta { background: var(--lime); border-radius: 28px; padding: 56px 64px; display: flex; justify-content: space-between; align-items: center; gap: 32px 40px; flex-wrap: wrap; }
+    .cta-logo { font-family: var(--display); font-weight: 800; font-size: clamp(44px, 6vw, 56px); line-height: 1; letter-spacing: -0.04em; }
+    .cta-logo span { color: var(--pink-2); }
+    .cta p { margin: 12px 0 0; font-size: 17px; color: var(--olive); }
+    .cta-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn--lg { padding: 16px 28px; font-size: 16px; }
+    .btn--ink { background: var(--ink); color: var(--bg); }
+    .btn--ink:hover { color: var(--bg); background: var(--olive); }
+    .btn--outline { border: 1.5px solid var(--ink); color: var(--ink); padding: 14.5px 28px; }
+    .btn--outline:hover { background: var(--ink); color: var(--bg); }
+    .credits { margin-top: 28px; display: flex; justify-content: space-between; gap: 8px 24px; flex-wrap: wrap; font-size: 14px; color: var(--muted-2); }
+
+    /* Lightbox */
+    .lightbox { position: fixed; inset: 0; z-index: 50; background: rgba(20, 25, 17, 0.88); display: flex; align-items: center; justify-content: center; padding: 48px; cursor: zoom-out; opacity: 0; visibility: hidden; transition: opacity .2s ease, visibility .2s; }
+    .lightbox.open { opacity: 1; visibility: visible; }
+    .lightbox img { max-width: 100%; max-height: 100%; border-radius: 12px; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5); }
+    .lightbox-hint { position: absolute; top: 20px; right: 28px; color: var(--bg); font-size: 14px; }
+
+    /* ===== Movimiento ===== */
+    :root { --ease-out: cubic-bezier(0.23, 1, 0.32, 1); --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+    /* Barra de progreso de lectura y sombra del encabezado al scrollear */
+    .top { transition: box-shadow 300ms ease; }
+    .top.scrolled { box-shadow: 0 10px 30px -20px rgba(28, 35, 24, 0.35); }
+    .progress { position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%; background: var(--pink); transform-origin: left; transform: scaleX(var(--scroll, 0)); }
+
+    /* Link activo del menú */
+    .top nav a { position: relative; transition: color 200ms ease; }
+    .top nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; border-radius: 2px; background: var(--pink); transform: scaleX(0); transition: transform 350ms var(--ease-out); }
+    .top nav a.active { color: var(--ink); }
+    .top nav a.active::after { transform: scaleX(1); }
+    .back span:first-child { display: inline-block; transition: transform 250ms var(--ease-out); }
+
+    /* Título: letras con hover en ola */
+    .hero h1 .ch { display: inline-block; transition: transform 350ms var(--ease-out) calc(var(--i) * 28ms); }
+
+    /* Punto de estado latiendo */
+    .facts .v i { animation: pulse 2.2s ease-out infinite; }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(229, 106, 168, 0.55); } 70%, 100% { box-shadow: 0 0 0 9px rgba(229, 106, 168, 0); } }
+
+    /* Captura del hero: arranca inclinada y se endereza con el scroll */
+    .hero { overflow: hidden; }
+    .browser { transform-origin: 50% 100%; transform: perspective(1600px) rotateX(calc(12deg * (1 - var(--p, 1)))) scale(calc(0.95 + 0.05 * var(--p, 1))); will-change: transform; }
+    .browser-dots span { transition: background-color 250ms ease; }
+    .browser:hover .browser-dots span:nth-child(1) { background: #ff5f57; }
+    .browser:hover .browser-dots span:nth-child(2) { background: #febc2e; }
+    .browser:hover .browser-dots span:nth-child(3) { background: #28c840; }
+
+    /* Indicador deslizante de las pestañas */
+    .tabs { position: relative; }
+    .tabs button { position: relative; z-index: 1; }
+    .tabs button[aria-selected="true"] { font-weight: 500; }
+    .tabs.has-ind button[aria-selected="true"] { background: transparent; }
+    .tab-ind { position: absolute; top: 5px; bottom: 5px; left: 0; width: 0; border-radius: 999px; background: var(--ink); transition: transform 450ms var(--ease-out), width 450ms var(--ease-out); }
+
+    /* Cambio de captura: fundido con un leve desenfoque */
+    .frame img, .caption { transition: opacity 220ms ease, scale 400ms var(--ease-out), filter 220ms ease; }
+    .frame img.is-swapping { opacity: 0; scale: 0.985; filter: blur(6px); }
+    .caption.is-swapping { opacity: 0; }
+
+    /* Pista "Ampliar" sobre las capturas grandes */
+    .frame, .browser .zoom { position: relative; }
+    .frame::after, .browser .zoom::after { content: "Ampliar ⤢"; position: absolute; top: 26px; right: 26px; padding: 7px 14px; border-radius: 999px; background: rgba(28, 35, 24, 0.82); color: var(--bg); font: 600 13px var(--body); opacity: 0; translate: 0 -6px; transition: opacity 250ms ease, translate 350ms var(--ease-out); pointer-events: none; }
+    .frame--dark::after { background: rgba(245, 244, 236, 0.9); color: var(--ink); }
+    .browser .zoom::after { top: 14px; right: 14px; }
+
+    /* Teléfonos flotando, desfasados */
+    .phone .zoom { animation: float 6s ease-in-out infinite; transition: scale 350ms var(--ease-out), border-color 250ms ease; }
+    .phone:nth-child(2) .zoom { animation-delay: -2s; }
+    .phone:nth-child(3) .zoom { animation-delay: -4s; }
+    @keyframes float { 50% { translate: 0 -10px; } }
+
+    /* Tarjetas y botones */
+    .card, .role, .pills span, .btn, .num { transition: transform 350ms var(--ease-out), box-shadow 350ms var(--ease-out), background-color 250ms ease, color 250ms ease, border-color 250ms ease; }
+    .frame { transition: transform 450ms var(--ease-out), box-shadow 450ms var(--ease-out); }
+    .cta-logo span { display: inline-block; transition: transform 500ms var(--ease-spring); }
+
+    /* Lightbox: la imagen crece al abrir */
+    .lightbox img { scale: 0.94; transition: scale 400ms var(--ease-out); }
+    .lightbox.open img { scale: 1; }
+
+    @media (hover: hover) {
+      .hero h1:hover .ch { transform: translateY(-0.07em); }
+      .back:hover span:first-child { transform: translateX(-4px); }
+      .frame:hover, .browser .zoom:hover { cursor: zoom-in; }
+      .frame:hover::after, .browser .zoom:hover::after { opacity: 1; translate: 0 0; }
+      .frame:hover { transform: translateY(-4px); }
+      .frame--light:hover { box-shadow: 0 1px 0 var(--line), 0 40px 70px -30px rgba(28, 35, 24, 0.35); }
+      .card:hover, .role:hover { transform: translateY(-6px); box-shadow: 0 24px 40px -26px rgba(28, 35, 24, 0.45); }
+      .card:hover .num { background: var(--ink); color: var(--bg); }
+      .card--pink:hover .num { background: var(--bg); color: var(--ink); border-color: var(--bg); }
+      .pills span:hover { transform: translateY(-2px); border-color: var(--ink); }
+      .phone .zoom:hover { scale: 1.04; border-color: var(--lime); }
+      .btn:hover { transform: translateY(-2px); }
+      .cta:hover .cta-logo span { transform: translateY(-10px); }
+    }
+
+    /* Entrada del hero (solo con movimiento permitido) */
+    @media (prefers-reduced-motion: no-preference) {
+      .hero-copy .kicker { animation: rise 700ms var(--ease-out) both; }
+      .hero h1 .ch { animation: drop 800ms var(--ease-out) calc(120ms + var(--i) * 45ms) both; }
+      .hero h1 .h1-dot { animation: pop 650ms var(--ease-spring) 560ms both; }
+      .hero-copy .lead { animation: rise 800ms var(--ease-out) 300ms both; }
+      .facts { animation: rise 800ms var(--ease-out) 420ms both; }
+      .browser { animation: rise 1000ms var(--ease-out) 450ms both; }
+
+      /* Aparición al scrollear: solo si el JS cargó, así sin JS todo se ve */
+      .js-motion .reveal:not(.visible), .js-motion .stagger:not(.visible) > * { opacity: 0; }
+      .js-motion .reveal.visible { animation: rise 800ms var(--ease-out) both; }
+      .js-motion .stagger.visible > * { animation: rise 750ms var(--ease-out) calc(var(--i, 0) * var(--step, 80ms)) both; }
+      .js-motion .todo.visible > * { animation-name: slide; }
+    }
+    @keyframes rise { from { opacity: 0; translate: 0 24px; } }
+    @keyframes slide { from { opacity: 0; translate: -18px 0; } }
+    @keyframes drop { from { opacity: 0; translate: 0 0.45em; rotate: 6deg; } }
+    @keyframes pop { from { opacity: 0; scale: 0; } }
+
+    @media (max-width: 960px) {
+      .top nav { display: none; }
+      .hero-grid, .split, .mobile { grid-template-columns: 1fr; gap: 40px; }
+      .prose { padding-top: 0; }
+      .steps, .roles { grid-template-columns: 1fr; }
+      .browser { margin-top: 56px; }
+    }
+    @media (max-width: 720px) {
+      :root { --gutter: 16px; }
+      .hero .wrap { padding-top: 56px; }
+      .section { padding-top: 72px; }
+      #contexto { padding-top: 80px; }
+      .steps { margin-top: 48px; }
+      .features { grid-template-columns: 1fr; gap: 40px; }
+      .prose { font-size: 18px; }
+      .facts { grid-template-columns: 1fr; }
+      .mobile { padding: 32px 20px; border-radius: 22px; }
+      .phones { gap: 10px; }
+      .phone .zoom { border-radius: 18px; padding: 5px; }
+      .phone img { border-radius: 14px; }
+      .frame { padding: 8px; border-radius: 16px; }
+      .frame img { border-radius: 9px; }
+      .browser { padding: 10px 10px 0; border-radius: 16px 16px 0 0; }
+      .cta { padding: 36px 24px; border-radius: 22px; }
+      .lightbox { padding: 16px; }
+      .back span:last-child { display: none; }
+      .back::after { content: "Volver"; }
+    }
+    @media (max-width: 420px) {
+      .checklist { grid-template-columns: 1fr; }
+      .stack { grid-template-columns: 1fr; }
+      .tabs button { padding: 9px 14px; font-size: 14px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: 1ms !important; animation: none !important; }
+      .browser { transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="top">
+    <div class="progress" aria-hidden="true"></div>
+    <div class="wrap">
+      <a href="../../index.html#proyectos" class="back"><span aria-hidden="true">←</span><span>Volver a proyectos</span></a>
+      <nav aria-label="Secciones">
+        <a href="#contexto">Contexto</a>
+        <a href="#tienda">Tienda</a>
+        <a href="#panel">Panel</a>
+        <a href="#stack">Tecnologías</a>
+      </nav>
+      <a href="https://github.com/anttobocc/Nutrivid" target="_blank" rel="noopener" class="btn btn--dark">Ver código</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <div class="kicker"><span>Tienda online</span><span class="dot"></span><span>Dietética multisucursal</span></div>
+            <h1 aria-label="nutrivid"><span aria-hidden="true"><span class="ch" style="--i:0">n</span><span class="ch" style="--i:1">u</span><span class="ch" style="--i:2">t</span><span class="ch" style="--i:3">r</span><span class="ch" style="--i:4">i</span><span class="ch" style="--i:5">v</span><span class="ch" style="--i:6">i</span><span class="ch" style="--i:7">d</span><span class="ch pink h1-dot" style="--i:8">.</span></span></h1>
+            <p class="lead">Nutrivid es una tienda online desarrollada para una dietética con múltiples sucursales, pensada para facilitar la consulta de productos y la realización de pedidos de forma rápida y sencilla.</p>
+          </div>
+          <div class="facts">
+            <div><div class="k">Rol</div><div class="v">Diseño y desarrollo full stack</div></div>
+            <div><div class="k">Stack</div><div class="v">Django · Python · JavaScript</div></div>
+            <div><div class="k">Origen</div><div class="v">Dietética de Corrientes, Argentina</div></div>
+            <div><div class="k">Estado</div><div class="v"><i></i>En desarrollo · sin deploy</div></div>
+          </div>
+        </div>
+
+        <div class="browser">
+          <div class="browser-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+          <button type="button" class="zoom" data-zoom aria-label="Ampliar captura del inicio">
+            <img src="img/d-hero.webp" width="1887" height="862" alt="Inicio de la tienda Nutrivid en escritorio" fetchpriority="high" />
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="contexto" class="wrap section">
+      <div class="split">
+        <div>
+          <div class="eyebrow">01 · Contexto</div>
+          <h2 class="h2">Varias sucursales, ninguna web propia.</h2>
+        </div>
+        <div class="prose">
+          <p>El proyecto surge a partir de una situación real de una dietética de la provincia de Corrientes, Argentina, que cuenta con varias sucursales pero no dispone de una página web propia.</p>
+          <p>A partir de esta necesidad, se desarrolló una propuesta digital que busca centralizar la información de los productos, facilitar su consulta y mejorar la experiencia de compra de los clientes.</p>
+        </div>
+      </div>
+
+      <div class="steps">
+        <div class="card">
+          <div class="num">1</div>
+          <div class="card-title">Elegí productos</div>
+          <div class="card-text">El cliente selecciona una sucursal y consulta el catálogo con el stock de esa sucursal.</div>
+        </div>
+        <div class="card">
+          <div class="num">2</div>
+          <div class="card-title">Enviá el pedido</div>
+          <div class="card-text">Arma el carrito, ajusta cantidades y revisa el total antes de enviarlo.</div>
+        </div>
+        <div class="card card--pink">
+          <div class="num">3</div>
+          <div class="card-title">Confirmamos por WhatsApp</div>
+          <div class="card-text">El pedido llega por chat y la dietética coordina la compra con el cliente.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tienda" class="wrap section">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">02 · La tienda</div>
+          <h2 class="h2">Lo que ve el cliente</h2>
+        </div>
+        <div class="tabs" role="tablist" aria-label="Vistas de la tienda" data-tabs="tienda">
+          <button type="button" role="tab" aria-selected="true" data-src="img/d-inicio.webp" data-w="1882" data-h="865" data-alt="Categorías y ofertas" data-caption="Inicio: categorías y ofertas de la sucursal elegida.">Inicio</button>
+          <button type="button" role="tab" aria-selected="false" data-src="img/d-catalogo.webp" data-w="1885" data-h="874" data-alt="Catálogo con filtros" data-caption="Catálogo: búsqueda, filtros por categoría y disponibilidad según la sucursal.">Catálogo</button>
+        </div>
+      </div>
+      <button type="button" class="zoom frame frame--light" data-zoom data-panel="tienda" aria-label="Ampliar captura">
+        <img src="img/d-inicio.webp" width="1882" height="865" alt="Categorías y ofertas" loading="lazy" />
+      </button>
+      <p class="caption" data-caption="tienda">Inicio: categorías y ofertas de la sucursal elegida.</p>
+
+      <div class="features">
+        <div class="feature">
+          <div class="feature-title">Catálogo de productos</div>
+          <ul class="checklist">
+            <li>Búsqueda de productos</li><li>Filtrado por categorías</li><li>Productos en oferta</li><li>Productos destacados</li><li>Productos nuevos</li><li>Productos más vendidos</li><li>Precios y descripciones</li><li>Disponibilidad según la sucursal</li>
+          </ul>
+        </div>
+        <div class="feature">
+          <div class="feature-title">Carrito de compras</div>
+          <ul class="checklist">
+            <li>Agregar productos</li><li>Modificar cantidades</li><li>Eliminar productos</li><li>Ver los seleccionados</li><li>Calcular el total</li><li>Revisar antes de enviar</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap section">
+      <div class="mobile">
+        <div>
+          <div class="eyebrow">Mobile + pedidos por WhatsApp</div>
+          <h2 class="h2">Armá tu pedido acá <span class="pink">y lo coordinamos por WhatsApp.</span></h2>
+          <p>El sistema permite preparar un pedido desde el carrito y enviarlo mediante WhatsApp. Esto facilita la comunicación entre el cliente y la dietética para coordinar la compra.</p>
+        </div>
+        <div class="phones">
+          <div class="phone">
+            <button type="button" class="zoom" data-zoom aria-label="Ampliar captura: Inicio mobile"><img src="img/m-home.webp" width="303" height="640" alt="Inicio mobile" loading="lazy" /></button>
+            <span>Inicio</span>
+          </div>
+          <div class="phone">
+            <button type="button" class="zoom" data-zoom aria-label="Ampliar captura: Ofertas mobile"><img src="img/m-ofertas.webp" width="310" height="643" alt="Ofertas mobile" loading="lazy" /></button>
+            <span>Ofertas y destacados</span>
+          </div>
+          <div class="phone">
+            <button type="button" class="zoom" data-zoom aria-label="Ampliar captura: Carrito mobile"><img src="img/m-carrito.webp" width="309" height="643" alt="Carrito mobile" loading="lazy" /></button>
+            <span>Tu pedido</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel" class="wrap section">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">03 · Panel de administración</div>
+          <h2 class="h2">Cada sucursal, su propio stock</h2>
+        </div>
+        <div class="tabs" role="tablist" aria-label="Vistas del panel" data-tabs="panel">
+          <button type="button" role="tab" aria-selected="false" data-src="img/p-login.webp" data-w="1897" data-h="864" data-alt="Inicio de sesión del panel" data-caption="Ingreso al panel de administración.">Ingreso</button>
+          <button type="button" role="tab" aria-selected="false" data-src="img/p-sucursal.webp" data-w="1902" data-h="861" data-alt="Selector de sucursal" data-caption="Al entrar, se elige con qué sucursal trabajar. Productos y categorías muestran solo sus datos.">Sucursal</button>
+          <button type="button" role="tab" aria-selected="true" data-src="img/p-productos.webp" data-w="1879" data-h="865" data-alt="Inventario de productos" data-caption="Inventario por sucursal: precio, stock, estado y disponibilidad en la tienda.">Productos</button>
+        </div>
+      </div>
+      <button type="button" class="zoom frame frame--dark" data-zoom data-panel="panel" aria-label="Ampliar captura">
+        <img src="img/p-productos.webp" width="1879" height="865" alt="Inventario de productos" loading="lazy" />
+      </button>
+      <p class="caption" data-caption="panel">Inventario por sucursal: precio, stock, estado y disponibilidad en la tienda.</p>
+
+      <div class="features">
+        <div class="feature">
+          <div class="feature-title">Gestión de sucursales</div>
+          <p>Nutrivid está pensado para trabajar con una dietética que cuenta con múltiples sucursales. Cada sucursal puede manejar:</p>
+          <div class="pills">
+            <span>Productos disponibles</span><span>Stock</span><span>Disponibilidad</span><span>Categorías</span><span>Ofertas</span><span>Productos destacados</span>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-title">Desde el panel se gestionan</div>
+          <p>Todo lo que se muestra en la tienda se administra sin tocar código.</p>
+          <div class="pills pills--lime">
+            <span>Productos</span><span>Categorías</span><span>Sucursales</span><span>Usuarios</span><span>Stock</span><span>Disponibilidad</span><span>Ofertas</span><span>Destacados</span><span>Nuevos</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap section">
+      <div class="eyebrow">04 · Roles de usuario</div>
+      <h2 class="h2">Tres tipos de acceso</h2>
+      <div class="roles">
+        <div class="role">
+          <div class="tag">Panel</div>
+          <div class="name">Administrador</div>
+          <p>Cuenta con acceso a las principales funcionalidades de administración del sistema. Puede gestionar productos, categorías, sucursales, usuarios y stock.</p>
+        </div>
+        <div class="role">
+          <div class="tag">Panel</div>
+          <div class="name">Usuario de panel</div>
+          <p>Puede acceder a las funcionalidades administrativas correspondientes según sus permisos y sucursales asignadas.</p>
+        </div>
+        <div class="role role--dark">
+          <div class="tag">Tienda</div>
+          <div class="name">Cliente</div>
+          <p>Consulta el catálogo, selecciona una sucursal, busca y filtra productos, los agrega al carrito, prepara un pedido y lo envía mediante WhatsApp.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="stack" class="wrap section">
+      <div class="split">
+        <div>
+          <div class="eyebrow">05 · Tecnologías</div>
+          <h2 class="h2">Con qué está hecho</h2>
+        </div>
+        <div class="stack">
+          <div><div class="k">Backend</div><div class="v">Python · Django</div></div>
+          <div><div class="k">Frontend</div><div class="v">HTML5 · CSS3 · JavaScript</div></div>
+          <div><div class="k">Base de datos</div><div class="v">SQLite</div></div>
+          <div><div class="k">Control de versiones</div><div class="v">Git · GitHub</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap section">
+      <div class="split">
+        <div>
+          <div class="eyebrow">06 · En curso</div>
+          <h2 class="h2">En qué estoy trabajando</h2>
+        </div>
+        <ol class="todo">
+          <li>Desarrollando una tienda online para una dietética.</li>
+          <li>Trabajando con múltiples sucursales.</li>
+          <li>Implementando un catálogo de productos.</li>
+          <li>Desarrollando el carrito de compras.</li>
+          <li>Integrando pedidos mediante WhatsApp.</li>
+          <li>Desarrollando un panel de administración.</li>
+          <li>Gestionando diferentes roles de usuario.</li>
+          <li>Trabajando con bases de datos.</li>
+          <li>Mejorando continuamente la interfaz y experiencia de usuario.</li>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap foot">
+    <div class="cta">
+      <div>
+        <div class="cta-logo">nutrivid<span>.</span></div>
+        <p>El proyecto todavía no está publicado. El código está disponible en GitHub.</p>
+      </div>
+      <div class="cta-actions">
+        <a href="https://github.com/anttobocc/Nutrivid" target="_blank" rel="noopener" class="btn btn--lg btn--ink">Ver código en GitHub</a>
+        <a href="../../index.html#proyectos" class="btn btn--lg btn--outline">Más proyectos</a>
+      </div>
+    </div>
+    <div class="credits">
+      <span>Antonella Boccalandro</span><span>Desarrollado y diseñado por anttobocc ♡</span>
+    </div>
+  </footer>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Captura ampliada" aria-hidden="true">
+    <img alt="" />
+    <div class="lightbox-hint">Esc o click para cerrar</div>
+  </div>
+
+  <script>
+    (() => {
+      const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const wait = (ms) => new Promise((r) => setTimeout(r, reduceMotion ? 0 : ms));
+
+      // Aparición al scrollear: elementos sueltos y grupos escalonados
+      document.documentElement.classList.add("js-motion");
+      const revealSingles = "main .section .eyebrow, main .section .h2, .prose, .frame, .caption, .section-head .tabs, .mobile, .cta, .credits";
+      const revealGroups = [[".steps", 110], [".features", 120], [".checklist", 35], [".pills", 30], [".phones", 120], [".roles", 110], [".stack", 80], [".todo", 55]];
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("visible");
+          revealObserver.unobserve(entry.target);
+        });
+      }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
+      document.querySelectorAll(revealSingles).forEach((el) => {
+        el.classList.add("reveal");
+        revealObserver.observe(el);
+      });
+      revealGroups.forEach(([selector, step]) => {
+        document.querySelectorAll(selector).forEach((group) => {
+          group.classList.add("stagger");
+          group.style.setProperty("--step", step + "ms");
+          [...group.children].forEach((child, i) => child.style.setProperty("--i", i));
+          revealObserver.observe(group);
+        });
+      });
+
+      // Scroll: barra de progreso, sombra del encabezado y la captura del hero que se endereza
+      const root = document.documentElement;
+      const header = document.querySelector(".top");
+      const heroBrowser = document.querySelector(".browser");
+      let ticking = false;
+      const onScroll = () => {
+        ticking = false;
+        const y = window.scrollY;
+        const max = root.scrollHeight - window.innerHeight;
+        root.style.setProperty("--scroll", max > 0 ? (y / max).toFixed(4) : 0);
+        header.classList.toggle("scrolled", y > 8);
+        if (!reduceMotion) heroBrowser.style.setProperty("--p", Math.min(y / (window.innerHeight * 0.45), 1).toFixed(4));
+      };
+      window.addEventListener("scroll", () => {
+        if (!ticking) { ticking = true; requestAnimationFrame(onScroll); }
+      }, { passive: true });
+      window.addEventListener("resize", onScroll);
+      onScroll();
+
+      // Menú: marca la sección que se está leyendo
+      const navLinks = document.querySelectorAll(".top nav a");
+      const navObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          navLinks.forEach((l) => l.classList.toggle("active", l.getAttribute("href") === "#" + entry.target.id));
+        });
+      }, { rootMargin: "-45% 0px -50% 0px" });
+      document.querySelectorAll("main section[id]").forEach((s) => navObserver.observe(s));
+
+      // Pestañas: indicador deslizante + cambio de captura con fundido
+      document.querySelectorAll("[data-tabs]").forEach((list) => {
+        const key = list.dataset.tabs;
+        const img = document.querySelector(`[data-panel="${key}"] img`);
+        const caption = document.querySelector(`[data-caption="${key}"]`);
+        const tabs = [...list.querySelectorAll("[role=tab]")];
+        const ind = document.createElement("span");
+        ind.className = "tab-ind";
+        ind.setAttribute("aria-hidden", "true");
+        list.prepend(ind);
+        list.classList.add("has-ind");
+        const moveInd = () => {
+          const sel = tabs.find((t) => t.getAttribute("aria-selected") === "true");
+          ind.style.width = sel.offsetWidth + "px";
+          ind.style.transform = `translateX(${sel.offsetLeft}px)`;
+        };
+        moveInd();
+        window.addEventListener("resize", moveInd);
+        if (document.fonts) document.fonts.ready.then(moveInd);
+
+        let token = 0;
+        tabs.forEach((tab) => {
+          // Precarga para que el cambio sea instantáneo
+          new Image().src = tab.dataset.src;
+          tab.addEventListener("click", async () => {
+            if (tab.getAttribute("aria-selected") === "true") return;
+            tabs.forEach((t) => t.setAttribute("aria-selected", String(t === tab)));
+            moveInd();
+            const mine = ++token;
+            img.classList.add("is-swapping");
+            caption.classList.add("is-swapping");
+            const next = new Image();
+            next.src = tab.dataset.src;
+            await Promise.all([next.decode().catch(() => {}), wait(200)]);
+            if (mine !== token) return; // otro click llegó antes
+            img.src = tab.dataset.src;
+            img.width = tab.dataset.w;
+            img.height = tab.dataset.h;
+            img.alt = tab.dataset.alt;
+            caption.textContent = tab.dataset.caption;
+            requestAnimationFrame(() => {
+              img.classList.remove("is-swapping");
+              caption.classList.remove("is-swapping");
+            });
+          });
+        });
+      });
+
+      // Lightbox
+      const box = document.getElementById("lightbox");
+      const boxImg = box.querySelector("img");
+      let opener = null;
+      const close = () => {
+        box.classList.remove("open");
+        box.setAttribute("aria-hidden", "true");
+        if (opener) opener.focus();
+      };
+      document.querySelectorAll("[data-zoom]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const img = btn.querySelector("img");
+          opener = btn;
+          boxImg.src = img.currentSrc || img.src;
+          boxImg.alt = img.alt;
+          box.classList.add("open");
+          box.setAttribute("aria-hidden", "false");
+        });
+      });
+      box.addEventListener("click", close);
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && box.classList.contains("open")) close();
+      });
+    })();
+  </script>
+</body>
+</html>
